@@ -1,0 +1,266 @@
+---
+title: "Introducción a la librería dplyr"
+subtitle: "R Day - Segundo encuentro nacional de usuarios de R"
+affiliation: "Universidad Nacional de Colombia"
+author: "Luis Gabriel González Herrera"
+date: "`r Sys.Date()`"
+output:
+    xaringan::moon_reader:
+     hygge: metropolis # tema del paquete xaringan
+     transition: slide
+     incremental: true
+     self-included: true
+     widescreen: true
+     spacing: double
+     fontsize: 20pt  # Tamaño de fuente predeterminado
+     
+     
+---
+
+
+## <span style = "color:blue" > **¿Qué es el dplyr?**</span>
+
+
+
+Desarrollado por <span style = "color:red" > **`Hadley Wickham`**</span> de RStudio (Posit)
+ 
+
+--
+
+<center>
+
+![](tidyverse.png)
+---
+
+
+## <span style = "color:blue" > **¿Qué es el dplyr?**</span>
+
+--
+
+
+
+<span style = "color:red" > **`tidyverse:`**</span> diseñado para facilitar operaciones comunes de la ciencia de datos y permitir, de una manera ordenada, un flujo de trabajo entre las diferentes tareas.
+ 
+
+--
+
+
+<br>
+
+Todo aquello que podemos hacer con <span style = "color:red" > **`dplyr`**</span> lo podríamos hacer con la sintaxis básica de R.
+   
+--
+
+<br>
+  
+
+<span style = "color:red" > **`dplyr`**</span> proporciona una <span style = "color:red" > **`"gramática"`**</span> (particularmente verbos) para la manipulación y operaciones con data frames. 
+   
+
+
+
+---
+
+## <span style = "color:blue" > **Gramática del dplyr**</span>
+
+
+--
+
+•	<span style = "color:red" > **select:**</span> devuelve un conjunto de columnas.
+
+--
+
+<br>
+
+•	<span style = "color:red" > **filter:**</span> devuelve un conjunto de filas según una o varias condiciones lógicas.
+
+
+--
+
+<br>
+
+•		<span style = "color:red" > **arrange:**</span> reordena filas de un data frame.
+
+
+--
+
+<br>
+
+•	<span style = "color:red" > **rename:**</span> renombra variables en una data frame.
+
+
+--
+
+<br>
+
+•	<span style = "color:red" > **mutate:**</span> añade nuevas variables/columnas o transforma variables existentes.
+
+--
+
+<br>
+
+•	<span style = "color:red" > **summarise:**</span> genera resúmenes estadísticos de diferentes variables en el data frame.
+
+
+
+ 
+---
+
+## <span style = "color:blue" > **El operador pipe**</span>
+
+--
+
+
+•	<span style = "color:red" > **%>%:**</span> es usado para conectar múltiples acciones en una única <span style = "color:red" > **"pipeline"**</span> (tubería).
+
+
+--
+
+<br>
+
+Los paquetes del tidyverse permiten poner en una <span style = "color:red" > **`“tubería”`**</span> un objeto con datos y ejecutar diferentes operaciones sobre las observaciones (filas) o variables (columnas), sin tener que guardar los resultados intermedios.
+
+
+--
+
+<br>
+
+El operador pipe <span style = "color:red" > **(%>%)**</span> permite <span style = "color:red" > **encadenar**</span> resultados rápidamente, de manera que se pueden ejecutar varios comandos de manera fácil e intuitiva.
+
+
+
+--
+
+<br>
+
+
+`ctrl + shift + M`
+
+
+--
+
+<br>
+
+`command + shift + M`
+
+
+---
+
+
+## <span style = "color:blue" > **Argumentos comunes dplyr**</span>
+
+
+--
+
+
+1)	El primer argumento es el data frame.
+
+
+--
+
+<br>
+
+2)	El valor de retorno es un nuevo data frame.
+
+
+--
+
+<br>
+
+
+3)	Los data frames deben estar bien organizados(una observación por columna y cada columna representar una medida de esa observación).
+
+
+---
+
+
+##<span style = "color:blue" > **Instalación y carga dplyr** </span>
+
+
+--
+
+
+* Instalación desde CRAN
+
+
+install.packages("dplyr")
+
+
+--
+
+<br>
+
+* Instalación desde GitHub
+
+
+library(devtools)
+
+install_github("hadley/dplyr")
+
+
+--
+
+<br>
+
+* Carga de la librería
+
+
+library(dplyr)
+
+
+---
+
+## <span style = "color:blue" > **Consulte documentación** </span>
+
+
+* ?select
+
+<br>
+
+* ?filter
+
+<br>
+
+* ?arrange
+
+<br>
+
+* ?mutate
+
+<br>
+
+* ?summarise
+
+<br>
+
+* ?group_by
+
+---
+
+
+## <span style = "color:blue" > **Links de consulta** </span>
+
+
+
+</center>
+
+
+https://rsanchezs.gitbooks.io/rprogramming/content/chapter9/dplyr.html
+
+
+<br>
+
+
+https://mauricioanderson.com/curso-r-dplyr/
+
+
+<br>
+
+
+https://cran.r-project.org/web/packages/dplyr/index.html
+
+
+<br>
+
+
+https://www.icesi.edu.co/editorial/empezando-transformar-web/Intro.html
