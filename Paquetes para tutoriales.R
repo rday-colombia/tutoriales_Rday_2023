@@ -72,11 +72,4 @@ install.packages(pkgs)
 # Tutorial 15
 # Manejo de bases de datos con R 
 
-
-
-
-
-
-
-
-
+NA # no se necesitan paquetes
