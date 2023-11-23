@@ -1,0 +1,420 @@
+---
+title: "Tutorial: Deep Learning con R"
+author: "Catherine Rincón"
+date: "2023-11-24"
+output: html_document
+---
+
+
+## **Resumen**
+Este tutorial es una introducción a Deep Learning y tiene como objetivo brindar los conceptos básicos, su importancia en la inteligencia artificial y las ventajas de su implementación. En la sesión se explicará el funcionamiento básico de una red neuronal a través de un ejemplo sencillo de clasificación de imágenes, implementando los frameworks de TensorFlow y Keras en R. Para esto, se mostrará un paso a paso con cada una de las etapas que se requieren dentro del proceso de análisis de datos: cargar y preprocesar los datos, teniendo en cuenta la normalización y la división de los datos en dos conjuntos: Datos de entrenamiento y prueba.
+
+Creación de una red neuronal sencilla con sus respectivas capas y función de activación, utilizando Keras. Configuración del proceso de entrenamiento, incluyendo la elección de la función de pérdida y el optimizador. Además, se realizarán procesos de compilación del modelo creado, entrenamiento con sus respectivos datos y evaluación del modelo a partir de métricas que permitan validar la precisión del modelo predictivo.
+
+
+
+
+## **Parte 1:** Introducción a Deep Learning
+
+- Definición de AI, ML, DL
+
+- Importancia del DL y campos de aplicación
+
+- Redes neuronales y sus componentes
+
+- Tipos de redes neuronales
+
+
+### Definición de AI, ML & DL y sus diferencias
+
+![](https://blog.dataiku.com/hs-fs/hubfs/AI-ML-DL-graphic.png?width=540&name=AI-ML-DL-graphic.png)
+
+**Inteligencia Artificial (AI):** Es una rama de la informática que busca automatizar tareas o imitar comportamientos normalmente realizadas por los humanos.
+
+**Machine Learning (ML):** Es una rama de la AI, que hace que un sistema descubra (aprenda) automáticamente la estructura estadística de los datos y convierta estos patrones para acercarse al resultado esperado (Ghatak, 2019). Taxonomía de problemas de ML:
+- Aprendizaje supervisado
+- Aprendizaje no supervisado
+- Aprendizaje por refuerzo
+
+**Deep Learning (DL):** Es una rama del ML, una nueva visión del aprendizaje de representaciones a partir de datos que pone énfasis en el aprendizaja de capas sucesivas de representaciones cada vez más significativas (Entre más capas, más abstracta la información) (Chollet & Allaire, 2017).
+
+
+
+### Importancia del DL y campos de aplicación
+
+- Reconocimiento de caracteres, imágenes, voz
+
+- Clasificación de imágenes
+
+- Traducción de texto a voz, de idiomas
+
+- Procesamiento de lenguaje natural (NLP)
+
+- Generación de texto
+
+- Predicciones en diferentes campos
+
+- Análisis genético
+
+- comprender ciertos fenómenos neurofisiológicos (Neurociencia)
+
+- Detección de enfermedades (Medicina)
+
+- Clasificación morfológica de las galaxias (Astrofísica)
+
+
+
+
+### Redes Neuronales y sus componentes
+
+Las redes neuronales tratan de simular el mecanismo de aprendizaje de organismos biológicos a través de la imitación de una neurona biológica (Aggarwal, 2018). La red neuronal simple es conocida como perceptrón y se caracteriza por tener una sola capa de entrada y un capa de salida.
+
+
+![](https://rramosp.github.io/2021.deeplearning/_images/U2.01%20-%20The%20Perceptron_8_0.png)
+Componentes de una red neuronal:
+
+* Entradas
+
+* Bias
+
+* Conexiones y pesos asociados
+
+* **Nodo o neurona:** Unidad básica de procesamiento de una red neuronal. Estos nodos se organizan en capas:
+
+  + La primera capa se llama *capa de entrada*
+  + Las capas del medio se conocen como *capas ocultas*
+  + La última se llama *capa de salida*
+
+
+* **Función de activación:** La función de activación también es uno de los hiperparámetros de una red neuronal y se define como una función matemática que transforma los datos de entrada, activando una señal de salida cuando se ha alcanzado un umbral de entrada específico (Dinov, 2018; Ghatak, 2019). Existen diferentes funciones de activación que se pueden implementar en las redes neuronales, estas funciones de activación pueden ser lineales y no lineales (Ghatak, 2019; Pawlus & Devine, 2020). La función de activación lineal es una línea recta y su salida oscila entre [-∞,+∞], sin embargo, este tipo de funciones no ayudan con la complejidad de los datos y los parámetros de las redes neuronales (Aggarwal, 2018; Ghatak, 2019). Las funciones de activación no lineales ayudan a la simulación de la mayoría de problemas del mundo real, las cuales toman cualquier entrada de [-∞,+∞] y asignarla a una salida que oscila entre [0,1] y [-1,1] (Aggarwal, 2018; Ghatak, 2019).
+
+
+![](https://carballar.com/wp-content/uploads/2023/03/red-neuronal-funcion-activacion-600x257-1.jpg)
+
+
+* Salida
+
+
+
+### **Tipos de redes neuronales**
+
+Existen diferentes tipos de arquitecturas de redes neuronales que se pueden clasificar de acuerdo a su estructura, tipo de neurona, entre otros.
+
+El perceptron y la red neuronal de retroalimentación (Feed Forward Neural Network - FFNN) es el tipo de red más sencillo, el cual, tiene un nodo de entrada y un nodo de salida.
+
+![](https://www.asimovinstitute.org/wp-content/uploads/2019/04/NeuralNetworkZoo20042019.png)
+
+
+
+
+
+## **Parte 2:** Ejemplo de Deep Learning en R
+
+* Keras en R
+
+* Base de datos a analizar
+
+* Ejemplo
+
+  + Instalar los paquetes necesarios
+  
+  + Cargar los datos
+  
+  + Dividir los datos en dos conjuntos
+  
+  + Realizar el preprocesamiento de los datos
+  
+  + Definir la estructura del modelo con la red neuronal
+  
+  + Compilar el modelo
+  
+  + Entrenar el modelo
+  
+  + Evaluar el desempeño del modelo
+  
+  + Generar predicciones
+
+
+
+### Keras en R
+
+Keras es una API (Application Programming Interface) de alto nivel para crear y entrenar modelos de aprendizaje profundo. Se utiliza para la creación rápida de prototipos, investigación avanzada y en producción. Las ventajas clave de Keras son:
+
+- *Fácil de usar (amigable con el usuario):* Keras tiene una interfaz simple y consistente, optimizada para casos de uso comunes. Proporciona información clara y procesable sobre los errores del usuario.
+
+- *Modular y configurable:* Los modelos en Keras se fabrican conectando bloques de construcción configurables entre sí, con pocas restricciones.
+
+- *Fácil de extender:* Escribir bloques de construcción personalizados para expresar nuevas ideas para la investigación. Cree nuevas capas, funciones de pérdida y desarrolle modelos de última generación.
+
+
+### Base de datos a analizar
+
+**MNIST** (Modified National Institute of Standards and Technology) es una base de datos de imágenes de números del 0 al 9 escritos a mano en escala de grises (0-255) con un tamaño de 28x28, es decir, 784 píxeles. Es un subconjunto de una base de datos especial 3 del NIST (dígitos escritos por empleados de la Oficina del Censo de Estados Unidos) y una base de datos especial 1 (dígitos escritos por estudiantes de secundaria).
+
+*Objetivo:* Predecir el número escrito a mano de la imagen.
+
+La base de datos cuenta con 70.000 imágenes que se dividen en dos conjuntos de datos:
+- Datos de entrenamiento
+- Datos de prueba
+
+Cada uno de los conjuntos de datos cuenta con dos componentes:
+- Imágenes
+- Etiquetas
+
+
+https://knowyourdata-tfds.withgoogle.com/#tab=STATS&dataset=mnist
+
+
+
+### **Ejemplo**
+
+Para el desarrollo se tiene en cuenta los siguientes pasos:
+  - Instalar los paquetes
+  
+  - Cargar los datos
+  
+  - Dividir los datos en dos conjuntos de datos
+  
+  - Realizar el preprocesamiento de los datos
+  
+  - Definir la estructura del modelo con la red neuronal
+  
+  - Compilar el modelo
+  
+  - Entrenar el modelo
+  
+  - Evaluar el desempeño del modelo
+  
+  - Generar predicciones
+
+
+
+#### *Instalar los paquetes necesarios*
+
+Se instalan y disponibilizan los paquetes necesarios para el desarrollo del ejemplo.
+
+```{r setup, include=FALSE}
+#install.packages("devtools")
+#devtools::install_github("rstudio/keras")
+#install.packages("tensorflow")
+#library(tensorflow)
+#install_tensorflow()
+#install_keras()
+
+# Cargar bibliotecas
+library(keras)
+library(dplyr)
+
+
+```
+
+
+#### *Cargar los datos*
+
+```{r cargar_datos}
+# Cargar el conjunto de datos MNIST
+mnist <- dataset_mnist()
+
+names(mnist)
+
+cat("Entenamiento:", names(mnist$train), "- prueba:", names(mnist$test))
+```
+
+
+#### *Dividir los datos en dos conjuntos*
+
+```{r division_datos}
+# Datos de entrenamiento
+x_train <- mnist$train$x
+y_train <- mnist$train$y
+
+# Datos de prueba
+x_test <- mnist$test$x
+y_test <- mnist$test$y
+
+# Para evaluar el modelo
+y_true <- mnist$test$y
+
+# Dimensiones de los datos de entrenamieto y prueba
+cat("x entenamiento: ", dim(x_train), "- y entrenamiento", dim(y_train))
+cat("x prueba: ", dim(x_test), "- y prueba", dim(y_test))
+```
+
+En el conjunto de datos de entrenamiento se tienen 60.000 imágenes de 28 x 28. Lo que indica una matriz de 28 filas por 28 columnas que contiene diferentes números, el cero representa que no se escribió nada y entre más grande el número, indica una marca más obscura en la imagen.
+
+```{r imagen}
+# Visualización de la imagen 1000 del conjunto de datos de entrenamiento
+im <- x_train[1000, , ]
+im <- t(apply(im, 2, rev))
+image(x=1:28, y=1:28, z=im, col=gray((0:255)/255),
+          xaxt='n', main=paste(y_train[1000]))
+
+# Visualización de la imagen en forma de matriz del conjunto de datos de entrenamiento
+x_train[1000, , ]
+
+# Visualización de la etiqueta
+y_train[1000]
+```
+
+
+Los primeros 16 números del conjunto de datos de entrenamiento se visualizan de la siguente forma:
+
+```{r primeros_numeros}
+par(mfcol=c(4, 4))
+par(mar=c(0, 0, 3, 0), xaxs='i', yaxs='i')
+for (j in 1:16) { 
+    im <- x_train[j, , ]
+    im <- t(apply(im, 2, rev)) 
+    image(x=1:28, y=1:28, z=im, col=gray((0:255)/255), 
+          xaxt='n', main=paste(y_train[j]))
+}
+
+# Las etiquetas de los números
+y_train[1:16]
+```
+
+
+#### *Realizar el preprocesamiento de los datos*
+
+Se tienen diferentes imágenes de tamaño 28x28 píxeles en escala de grises de varios números. Para la preparación de los datos se debe realizar:
+
+- Aplanamiento de las imágenes 28x28 a un vector 1x784.
+
+- Estas imágenes están representadas a través de una matriz que define el número de cada imagen en un rango entre 0 y 255. Por lo cual, se deben normalizar las imágenes para tener las matrices en un rango entre 0 y 1.
+
+
+```{r prepro_datos}
+# Preprocesar los datos
+x_train <- array_reshape(x_train, c(nrow(x_train), 784))
+x_test <- array_reshape(x_test, c(nrow(x_test), 784))
+
+# Normalizar los valores de píxeles en el rango [0, 1]
+x_train <- x_train/255
+x_test <- x_test/255
+```
+
+
+
+
+#### *Definir la estructura del modelo con la red neuronal*
+
+```{r red}
+# Definir el modelo
+model <- keras_model_sequential() %>%
+  layer_dense(units = 256, activation = 'relu', input_shape = c(784)) %>%
+  layer_dropout(rate = 0.4) %>%
+  layer_dense(units = 128, activation = 'relu') %>%
+  layer_dropout(rate = 0.3) %>%
+  layer_dense(units = 10, activation = 'softmax')
+
+summary(model)
+```
+
+
+El modelo anterior tiene 235.146 parámetros. El número de parámetros se define de acuerdo al número de neuronas que se tienen en cada una de las capas:
+
+Entrada a Capa 1 Densa:  784*256 + 256 (bias) = 200.960
+
+Capa 1 Dropout
+
+Capa 2 Densa:            256*128 + 128 (bias) = 32.896
+
+Capa 2 Dropout
+
+Capa 3 Densa a Salida:   128*10 + 10 (bias)   =  1.290
+
+Total parámetros = 235.146
+
+
+#### *Compilar el modelo*
+
+La compilación del modelo se puede realizar con:
+
+* Funciones de pérdida
+  + sparse_categorical_crossentropy
+  + categorical_crossentropy
+
+* Optimizador
+  + adam
+  + optimizer_rmsprop
+
+
+```{r compilar}
+# Compilar el modelo
+model %>% compile(
+  loss = 'sparse_categorical_crossentropy',
+  optimizer = 'adam',
+  metrics = c('accuracy')
+)
+```
+
+
+#### *Entrenar el modelo*
+
+El entrenamiento del modelo se realiza a partir de la función fit() y se puede almacenar en una variable con el fin de ver el entrenamiento del modelo. Además, se puede agregar el parámetro *validation_split* con el fin de generar un conjunto de validación con el objetivo de evaluar el desempeño del modelo.
+
+
+```{r entrenamiento}
+# Entrenar el modelo
+training <- model %>% fit(x_train,
+              y_train,
+              epochs = 20,
+              batch_size = 64,
+              validation_split = 0.2)
+
+plot(training)
+```
+
+
+
+
+#### *Evaluar el desempeño del modelo*
+```{r evaluacion}
+# Evaluar el modelo en el conjunto de prueba
+eval <- model %>% evaluate(x_test, y_test)
+eval
+```
+
+
+#### *Generar predicciones*
+```{r predicciones}
+# Realizar predicciones y generar matriz de confusion
+prediction <- model %>% predict(x_test) %>% k_argmax()
+
+# Se realiza la matriz de confusion
+matriz_confusion <- table(as.array(prediction), y_true)
+matriz_confusion
+
+accuracy <- sum(diag(matriz_confusion)) / sum(matriz_confusion)
+accuracy
+
+
+# Números de la predicción
+prediction$numpy()
+
+# Números reales
+y_test
+
+```
+
+
+
+## **Referencias**
+
+Aggarwal, C. C. (2018). Neural Networks and Deep Learning. Neural Networks and Deep Learning. https://doi.org/10.1007/978-3-319-94463-0
+
+Chollet, F., & Allaire, J. J. (2016). Deep Learning in R. In R-bloggers (Vol. 1, Issue 7080). https://www.r-bloggers.com/deep-learning-in-r-2/
+
+Ghatak, A. (2019). Deep learning with R. Deep Learning with R, 1–245. https://doi.org/10.1007/978-981-13-5850-0/COVER
+
+Van Veen, F. (2016). The Neural Network Zoo. https://www.asimovinstitute.org/neural-network-zoo/
+
+
+
+**Otras Referencias**
+
+Guía básica de Keras: https://tensorflow.rstudio.com/guides/keras/basics
+
+Ejemplo de MNIST: https://rpubs.com/fhernanb/keras_mnist
+
+Fundamentos de Deep Learning: https://rramosp.github.io/2021.deeplearning/intro.html
